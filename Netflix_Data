@@ -83,6 +83,11 @@ on titles.show_id = people.show_id            -- finding director of the Starlin
 where titles.title = 'The Starling';
 
 
+Select p.director, t.title, t.country
+from "netflix_titles_info" t
+join "netflix_people" p					-- finding director, title, and country from two different tables
+on t.show_id = p.show_id
+
 
 
 
