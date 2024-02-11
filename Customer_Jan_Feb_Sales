@@ -1,73 +1,66 @@
 #In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
 
+ 
+SELECT COUNT(orderid)
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6             ---How many orders were placed in January? 
+AND orderid <> 'Order ID'
 
-select distinct product, price
-from JanSales                        
-order by price asc limit 1;
+  
+SELECT COUNT(orderid)
+FROM BIT_DB.JanSales
+WHERE Product='iPhone'                --How many of those orders were for an iPhone?
+AND length(orderid) = 6 
+AND orderid <> 'Order ID'
 
-SELECT distinct product, price
-FROM JanSales             
-ORDER BY price ASC LIMIT 1;
+SELECT distinct acctnum
+FROM BIT_DB.customers cust
+
+INNER JOIN BIT_DB.FebSales Feb
+ON cust.order_id=FEB.orderid                          --Select the customer account numbers for all the orders that were placed in February. 
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID'
+
 
 SELECT distinct Product, price
-FROM JanSales
-WHERE price in (SELECT min(price) FROM JanSales);
-
-select *
-from Jansales
-
-
-SELECT *
-FROM JanSales
-order by price;
-
-SELECT distinct product, price
-FROM JanSales
+FROM BIT_DB.JanSales
+WHERE  price in (SELECT min(price) FROM BIT_DB.JanSales)
+OR                                                                 --Which product was the cheapest one sold in January, and what was the price? 
+SELECT distinct product, price FROM BIT_DB.JanSales 
 ORDER BY price ASC LIMIT 1
 
-Select product, Min(price)
-from jansales
-group by product
-order by price;
+SELECT sum(quantity)*price as revenue
+,product
+FROM BIT_DB.JanSales                                    -- What is the total revenue for each product sold in January?
+GROUP BY product
 
-SELECT distinct product, min(price)
-FROM JanSales
-GROUP BY product;
-
-Select product, Sum(quantity * price) AS revenue
-from jansales
-group by product
-
-Select product, Sum(quantity) * price AS revenue
-from jansales
-group by product
-
-select product, quantity, Sum(quantity)*price AS total_revenue
-from Febsales
-where location = '548 Lincoln St, Seattle, WA 98101'
-
-
-SELECT
-sum(Quantity),
-product,
-sum(quantity)*price as revenue
-FROM FebSales
+select 
+sum(Quantity), 
+product, 
+sum(quantity)*price as revenue                              -- Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+FROM BIT_DB.FebSales 
 WHERE location = '548 Lincoln St, Seattle, WA 98101'
-GROUP BY product;
+GROUP BY product
 
 
-select *
-from febsales
-
-Select  Count (Distinct c.acctnum), Avg(Quantity*price) AS Avg_spent
-from febsales feb
-left join customers c
-on feb.orderid=c.order_id
-where feb.quantity >2
-and length(orderid) = 6 and orderid <> 'OrderID';
+select 
+count(distinct cust.acctnum), 
+avg(quantity*price)
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON FEB.orderid=cust.order_id                  --How many customers ordered more than 2 products at a time, and what was the average amount spent for those customers? 
+WHERE Feb.Quantity>2
+AND length(orderid) = 6 
+AND orderid <> 'Order ID'
 
 Select count(distinct acctnum), Avg(quantity*price) AS avg_spend 
 from customers c
 join febsales f
 on f.orderID=c.order_id
 where length(c.order_id) = 6 and c.order_id <> 'Order ID' and f.quantity >2;
+
+
+Select product, Sum(quantity)
+from febsales
+where location like '%Los Angeles%'                --List all the products sold in Los Angeles in February, and include how many of each were sold.
+Group By product
