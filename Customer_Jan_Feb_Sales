@@ -1,11 +1,12 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
 
 
 select distinct product, price
-from JanSales
+from JanSales                        
 order by price asc limit 1;
 
 SELECT distinct product, price
-FROM JanSales
+FROM JanSales             
 ORDER BY price ASC LIMIT 1;
 
 SELECT distinct Product, price
