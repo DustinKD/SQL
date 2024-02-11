@@ -1,0 +1,33 @@
+Select *
+from invoices
+
+select count(*), sum(total)
+from invoices
+where invoicedate like'2009%'                --What are the total sales for 2009? How many Invoices were there in 2009?
+
+
+
+select lastname,firstname, title
+from employees
+where title like '%sales%'                    --Show the Employees who are Sales Agents
+
+
+select *
+from customers
+
+
+select lastname, firstname, customerid, country                --Show Customers (their full names, customer ID, and country) who are not in the US.
+from customers
+where country <> 'USA'
+
+Select lastname, firstname, customerid                --Show only the Customers from Brazil.
+from customers
+where country = 'Brazil'
+
+select *
+from invoices
+
+select lastname, firstname, invoiceid, invoicedate, billingcountry
+from customers c                                                                            --Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+join invoices i
+on c.customerid = i.customerid
