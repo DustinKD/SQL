@@ -1,0 +1,72 @@
+
+
+select distinct product, price
+from JanSales
+order by price asc limit 1;
+
+SELECT distinct product, price
+FROM JanSales
+ORDER BY price ASC LIMIT 1;
+
+SELECT distinct Product, price
+FROM JanSales
+WHERE price in (SELECT min(price) FROM JanSales);
+
+select *
+from Jansales
+
+
+SELECT *
+FROM JanSales
+order by price;
+
+SELECT distinct product, price
+FROM JanSales
+ORDER BY price ASC LIMIT 1
+
+Select product, Min(price)
+from jansales
+group by product
+order by price;
+
+SELECT distinct product, min(price)
+FROM JanSales
+GROUP BY product;
+
+Select product, Sum(quantity * price) AS revenue
+from jansales
+group by product
+
+Select product, Sum(quantity) * price AS revenue
+from jansales
+group by product
+
+select product, quantity, Sum(quantity)*price AS total_revenue
+from Febsales
+where location = '548 Lincoln St, Seattle, WA 98101'
+
+
+SELECT
+sum(Quantity),
+product,
+sum(quantity)*price as revenue
+FROM FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY product;
+
+
+select *
+from febsales
+
+Select  Count (Distinct c.acctnum), Avg(Quantity*price) AS Avg_spent
+from febsales feb
+left join customers c
+on feb.orderid=c.order_id
+where feb.quantity >2
+and length(orderid) = 6 and orderid <> 'OrderID';
+
+Select count(distinct acctnum), Avg(quantity*price) AS avg_spend 
+from customers c
+join febsales f
+on f.orderID=c.order_id
+where length(c.order_id) = 6 and c.order_id <> 'Order ID' and f.quantity >2;
